@@ -1,16 +1,19 @@
 <?php include 'db.php';
 
+// Récupérer l'année en cours
+$currentYear = date("Y");
 // Requête pour obtenir le pourcentage de vaccination par type de vaccin
 $sql_vaccine_stats = "
     SELECT 
         v.type_vaccin,
         COUNT(DISTINCT v.employee_id) as vaccinated_count,
-        (SELECT COUNT(*) FROM employees) as total_employees,
-        ROUND(COUNT(DISTINCT v.employee_id) * 100.0 / (SELECT COUNT(*) FROM employees), 2) as percentage
+        (SELECT COUNT(*) FROM employees e WHERE YEAR(v.date_vaccination) = $currentYear) as total_employees,
+        ROUND(COUNT(DISTINCT v.employee_id) * 100.0 / 
+            (SELECT COUNT(*) FROM employees e WHERE YEAR(v.date_vaccination) = $currentYear), 2) as percentage
     FROM vaccinations v
+    WHERE YEAR(v.date_vaccination) = $currentYear
     GROUP BY v.type_vaccin
-    ORDER BY vaccinated_count DESC
-";
+    ORDER BY vaccinated_count DESC";
 $result_vaccine_stats = $conn->query($sql_vaccine_stats);
 
 // Requête pour obtenir l'historique détaillé des vaccinations par employé
@@ -1186,7 +1189,8 @@ $result_employee_history = $conn->query($sql_employee_history);
             <div class="card mb-4">
                 <div class="card-header bg-primary text-white">
                     <h5 class="card-title mb-0">
-                        <i class="fas fa-chart-pie me-2"></i>Pourcentage de vaccination par type
+                        <i class="fas fa-chart-pie me-2"></i>Pourcentage de vaccination par type pour l'année <span
+                            id="currentYear"></span>
                     </h5>
                 </div>
                 <div class="card-body">
@@ -1627,6 +1631,10 @@ $result_employee_history = $conn->query($sql_employee_history);
             });
         });
 
+    </script>
+    <script>
+        // Met à jour l'année dynamique dans l'élément avec l'ID 'currentYear'
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
     </script>
 </body>
 
