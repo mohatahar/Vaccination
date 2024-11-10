@@ -1,7 +1,7 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Connexion à la base de données
-    include 'db_connection.php'; // Assurez-vous que le fichier db_connection.php gère la connexion
+    include 'db.php'; // Assurez-vous que le fichier db_connection.php gère la connexion
 
     // Récupération des données du formulaire
     $employee_id = $_POST['employee_id'];

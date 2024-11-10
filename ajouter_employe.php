@@ -26,116 +26,7 @@ $result = $conn->query($query);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --background-color: #f8f9fa;
-            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        body {
-            background-color: var(--background-color);
-            color: var(--primary-color);
-        }
-
-        .page-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-            border-radius: 0 0 1rem 1rem;
-        }
-
-        .card {
-            border: none;
-            border-radius: 1rem;
-            box-shadow: var(--card-shadow);
-            transition: transform 0.3s ease;
-            margin-bottom: 2rem;
-            width: 1000px;    /* Largeur de la carte */
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .form-control, .form-select {
-            border-radius: 0.5rem;
-            border: 1px solid #dee2e6;
-            padding: 0.75rem;
-        }
-
-        .input-group-text {
-            border-radius: 0.5rem 0 0 0.5rem;
-            border: 1px solid #dee2e6;
-            background-color: #f8f9fa;
-        }
-
-        .form-control:focus, .form-select:focus {
-            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
-        }
-
-        .btn {
-            border-radius: 0.5rem;
-            padding: 0.5rem 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background-color: var(--secondary-color);
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-        }
-
-        .table {
-            background: white;
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-        }
-
-        .table thead th {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem;
-            border: none;
-        }
-
-        .table td {
-            padding: 1rem;
-            vertical-align: middle;
-        }
-
-        .btn-group-action {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .btn-sm {
-            padding: 0.4rem 0.8rem;
-            font-size: 0.875rem;
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .required-field::after {
-            content: "*";
-            color: red;
-            margin-left: 4px;
-        }
-    </style>
+    <link rel="stylesheet" href="css/style2.css">
 </head>
 <body>
     <div class="page-header text-center">
@@ -147,7 +38,7 @@ $result = $conn->query($query);
 
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-10">
+            <div class="col-lg-11">
                 <!-- Formulaire d'ajout -->
                 <div class="card mb-5 fade-in">
                     <div class="card-body">
