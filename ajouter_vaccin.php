@@ -1,4 +1,4 @@
-<?php 
+<?php
 include 'db.php';
 include 'header.php';
 
@@ -20,6 +20,7 @@ $result = $conn->query($query);
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,6 +29,7 @@ $result = $conn->query($query);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/style2.css">
 </head>
+
 <body>
     <div class="page-header text-center">
         <div class="container">
@@ -48,7 +50,8 @@ $result = $conn->query($query);
                             <div class="mb-4">
                                 <label for="name" class="form-label">Nom du vaccin</label>
                                 <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-prescription-bottle-medical"></i></span>
+                                    <span class="input-group-text"><i
+                                            class="fas fa-prescription-bottle-medical"></i></span>
                                     <input type="text" class="form-control" id="name" name="name" required>
                                 </div>
                             </div>
@@ -56,11 +59,12 @@ $result = $conn->query($query);
                                 <label for="recommended_doses" class="form-label">Doses recommandées</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-list-ol"></i></span>
-                                    <input type="number" class="form-control" id="recommended_doses" name="recommended_doses" min="1" required>
+                                    <input type="number" class="form-control" id="recommended_doses"
+                                        name="recommended_doses" min="1" required>
                                 </div>
                             </div>
                             <div class="text-end">
-								<button type="reset" class="btn btn-secondary me-2">
+                                <button type="reset" class="btn btn-secondary me-2">
                                     <i class="fas fa-redo me-2"></i>Réinitialiser
                                 </button>
                                 <button type="submit" class="btn btn-primary">
@@ -73,15 +77,16 @@ $result = $conn->query($query);
 
                 <div class="card fade-in">
                     <div class="card-body">
-						<div class="d-flex justify-content-between align-items-center mb-4">
-							<h3 class="card-title mb-4">
-								<i class="fas fa-list me-2"></i>Liste des vaccins
-							</h3>
-							<div class="input-group" style="width: 300px;">
-                                <input type="text" class="form-control" id="searchInput" placeholder="Rechercher un vaccin...">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3 class="card-title mb-4">
+                                <i class="fas fa-list me-2"></i>Liste des vaccins
+                            </h3>
+                            <div class="input-group" style="width: 300px;">
+                                <input type="text" class="form-control" id="searchInput"
+                                    placeholder="Rechercher un vaccin...">
                                 <span class="input-group-text"><i class="fas fa-search"></i></span>
-							</div>
-						</div>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
@@ -93,30 +98,29 @@ $result = $conn->query($query);
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
+                                    <?php
                                     $i = 1;
-                                    while ($row = $result->fetch_assoc()) { 
-                                    ?>
-                                    <tr>
-                                        <td><?php echo $i++; ?></td>
-                                        <td><?php echo htmlspecialchars($row['name']); ?></td>
-                                        <td>
-                                            <span class="badge bg-info">
-                                                <?php echo $row['recommended_doses']; ?> dose(s)
-                                            </span>
-                                        </td>
-                                        <td class="text-center action-buttons">
-                                            <a href="modifier_type_vaccin.php?id=<?php echo $row['id']; ?>" 
-                                               class="btn btn-warning btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <a href="?delete_id=<?php echo $row['id']; ?>" 
-                                               class="btn btn-danger btn-sm"
-                                               onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce vaccin ?');">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    while ($row = $result->fetch_assoc()) {
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $i++; ?></td>
+                                            <td><?php echo htmlspecialchars($row['name']); ?></td>
+                                            <td>
+                                                <span class="badge bg-info">
+                                                    <?php echo $row['recommended_doses']; ?> dose(s)
+                                                </span>
+                                            </td>
+                                            <td class="text-center action-buttons">
+                                                <a href="modifier_type_vaccin.php?id=<?php echo $row['id']; ?>"
+                                                    class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="?delete_id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce vaccin ?');">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
                                     <?php } ?>
                                 </tbody>
                             </table>
@@ -129,24 +133,24 @@ $result = $conn->query($query);
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-		// Fonction de recherche dans le tableau
-        document.getElementById('searchInput').addEventListener('keyup', function() {
+        // Fonction de recherche dans le tableau
+        document.getElementById('searchInput').addEventListener('keyup', function () {
             const searchText = this.value.toLowerCase();
             const tableRows = document.querySelectorAll('tbody tr');
-            
+
             tableRows.forEach(row => {
                 const text = row.textContent.toLowerCase();
                 row.style.display = text.includes(searchText) ? '' : 'none';
             });
         });
-		
-        document.getElementById('vaccineTypeForm').addEventListener('submit', function(event) {
+
+        document.getElementById('vaccineTypeForm').addEventListener('submit', function (event) {
             event.preventDefault();
             var form = this;
             var xhr = new XMLHttpRequest();
             xhr.open('POST', form.action, true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            
+
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
@@ -171,4 +175,5 @@ $result = $conn->query($query);
         });
     </script>
 </body>
+
 </html>

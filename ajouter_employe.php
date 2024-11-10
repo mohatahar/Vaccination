@@ -1,4 +1,4 @@
-<?php 
+<?php
 include 'db.php';
 include 'header.php';
 
@@ -19,6 +19,7 @@ $result = $conn->query($query);
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,6 +29,7 @@ $result = $conn->query($query);
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style2.css">
 </head>
+
 <body>
     <div class="page-header text-center">
         <div class="container">
@@ -51,14 +53,16 @@ $result = $conn->query($query);
                                     <label for="nom" class="form-label required-field">Nom</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                        <input type="text" class="form-control" id="nom" name="nom" required placeholder="Entrez le nom">
+                                        <input type="text" class="form-control" id="nom" name="nom" required
+                                            placeholder="Entrez le nom">
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <label for="prenom" class="form-label required-field">Prénom</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                        <input type="text" class="form-control" id="prenom" name="prenom" required placeholder="Entrez le prénom">
+                                        <input type="text" class="form-control" id="prenom" name="prenom" required
+                                            placeholder="Entrez le prénom">
                                     </div>
                                 </div>
                             </div>
@@ -75,17 +79,20 @@ $result = $conn->query($query);
                                     </div>
                                 </div>
                                 <div class="col-md-4 mb-4">
-                                    <label for="date_naissance" class="form-label required-field">Date de naissance</label>
+                                    <label for="date_naissance" class="form-label required-field">Date de
+                                        naissance</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                        <input type="text" class="form-control" id="date_naissance" name="date_naissance" required placeholder="Sélectionnez la date">
+                                        <input type="text" class="form-control" id="date_naissance"
+                                            name="date_naissance" required placeholder="Sélectionnez la date">
                                     </div>
                                 </div>
                                 <div class="col-md-4 mb-4">
                                     <label for="telephone" class="form-label required-field">N° Téléphone</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                        <input type="tel" class="form-control" id="telephone" name="telephone" required placeholder="Ex: 0600000000">
+                                        <input type="tel" class="form-control" id="telephone" name="telephone" required
+                                            placeholder="Ex: 0600000000">
                                     </div>
                                 </div>
                             </div>
@@ -94,14 +101,16 @@ $result = $conn->query($query);
                                     <label for="grade" class="form-label required-field">Grade</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fas fa-star"></i></span>
-                                        <input type="text" class="form-control" id="grade" name="grade" required placeholder="Entrez le grade">
+                                        <input type="text" class="form-control" id="grade" name="grade" required
+                                            placeholder="Entrez le grade">
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <label for="service" class="form-label required-field">Service</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fas fa-building"></i></span>
-                                        <input type="text" class="form-control" id="service" name="service" required placeholder="Entrez le service">
+                                        <input type="text" class="form-control" id="service" name="service" required
+                                            placeholder="Entrez le service">
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +134,8 @@ $result = $conn->query($query);
                                 <i class="fas fa-list me-2"></i>Liste des employés
                             </h3>
                             <div class="input-group" style="width: 300px;">
-                                <input type="text" class="form-control" id="searchInput" placeholder="Rechercher un employé...">
+                                <input type="text" class="form-control" id="searchInput"
+                                    placeholder="Rechercher un employé...">
                                 <span class="input-group-text"><i class="fas fa-search"></i></span>
                             </div>
                         </div>
@@ -147,25 +157,26 @@ $result = $conn->query($query);
                                 <tbody>
                                     <?php $i = 1;
                                     while ($row = $result->fetch_assoc()) { ?>
-                                    <tr>
-                                        <td><?php echo $i++; ?></td>
-                                        <td><?php echo htmlspecialchars($row['nom']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['prenom']); ?></td>
-                                        <td><?php echo $row['sexe']; ?></td>
-                                        <td><?php echo date('d/m/Y', strtotime($row['date_naissance'])); ?></td>
-                                        <td><?php echo htmlspecialchars($row['grade']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['service']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['telephone']); ?></td>
-                                        <td class="btn-group-action">
-                                            <a href="modifier_employe.php?id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <a href="?delete_id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" 
-                                               onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet employé ?');">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td><?php echo $i++; ?></td>
+                                            <td><?php echo htmlspecialchars($row['nom']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['prenom']); ?></td>
+                                            <td><?php echo $row['sexe']; ?></td>
+                                            <td><?php echo date('d/m/Y', strtotime($row['date_naissance'])); ?></td>
+                                            <td><?php echo htmlspecialchars($row['grade']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['service']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['telephone']); ?></td>
+                                            <td class="btn-group-action">
+                                                <a href="modifier_employe.php?id=<?php echo $row['id']; ?>"
+                                                    class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="?delete_id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet employé ?');">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
                                     <?php } ?>
                                 </tbody>
                             </table>
@@ -188,10 +199,10 @@ $result = $conn->query($query);
         });
 
         // Fonction de recherche dans le tableau
-        document.getElementById('searchInput').addEventListener('keyup', function() {
+        document.getElementById('searchInput').addEventListener('keyup', function () {
             const searchText = this.value.toLowerCase();
             const tableRows = document.querySelectorAll('tbody tr');
-            
+
             tableRows.forEach(row => {
                 const text = row.textContent.toLowerCase();
                 row.style.display = text.includes(searchText) ? '' : 'none';
@@ -199,15 +210,15 @@ $result = $conn->query($query);
         });
 
         // Gestion du formulaire
-        document.getElementById('employeForm').addEventListener('submit', function(event) {
+        document.getElementById('employeForm').addEventListener('submit', function (event) {
             event.preventDefault();
-            
+
             var form = this;
             var xhr = new XMLHttpRequest();
             xhr.open('POST', form.action, true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            
-            xhr.onreadystatechange = function() {
+
+            xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
                         if (confirm("L'employé a été ajouté avec succès. Voulez-vous ajouter un autre employé ?")) {
@@ -225,4 +236,5 @@ $result = $conn->query($query);
         });
     </script>
 </body>
+
 </html>
