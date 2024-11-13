@@ -99,7 +99,7 @@ $result_employee_history = $conn->query($sql_employee_history);
 
         <div class="page-header text-center">
             <div class="container">
-                <h1><i class="fas fa-chart-line me-2"></i>Tableau de bord des vaccinations - EPH SOBHA</h1>
+                <h1><i class="fas fa-chart-line me-2"></i>Tableau de bord de vaccinations - EPH SOBHA</h1>
                 <p class="lead"> </p>
             </div>
         </div>
