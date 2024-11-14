@@ -243,15 +243,22 @@ $result_employee_history = $conn->query($sql_employee_history);
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="glass-card h-100">
                     <?php
+                    // SQL query to get unvaccinated employees count and total employees
                     $sql = "SELECT 
-						COUNT(*) AS non_vaccines,
-						(SELECT COUNT(*) FROM employees) as total_employees
-						FROM employees 
-						WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations)";
+    COUNT(*) AS non_vaccines,
+    (SELECT COUNT(*) FROM employees) as total_employees
+FROM employees 
+WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations)";
 
                     $result = $conn->query($sql);
                     $row = $result->fetch_assoc();
-                    $percentage = round(($row['non_vaccines'] / $row['total_employees']) * 100, 1);
+
+                    // Calculate percentage with proper error handling
+                    $total_employees = $row['total_employees'];
+                    $non_vaccines = $row['non_vaccines'];
+                    $percentage = ($total_employees > 0) ?
+                        round(($non_vaccines / $total_employees) * 100, 1) :
+                        0;
                     ?>
 
                     <div class="glass-card-body">
