@@ -173,7 +173,7 @@ if (isset($_GET['delete_id'])) {
                                 echo "<td>" . (!empty($row['type_vaccin']) ? htmlspecialchars($row['type_vaccin']) : "N/A") . "</td>";
                                 echo "<td>" . date('d/m/Y', strtotime($row['date_vaccination'])) . "</td>";
                                 echo "<td>" . htmlspecialchars($row['dose']) . "</td>";
-                                echo "<td>" . date('d/m/Y', strtotime($row['prochain_rappel'])) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['prochain_rappel']) . "</td>";
                                 echo "<td class='btn-group-action'>";
                                 echo "<a href='modifier_vaccination.php?id=" . $row['vaccination_id'] . "' 
                                 class='btn btn-warning btn-sm'>
