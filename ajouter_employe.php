@@ -24,9 +24,9 @@ $result = $conn->query($query);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Employés</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="assets/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/fontawesome-free-6.7.1-web/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/flatpickr/flatpickr.min.css">
     <link rel="stylesheet" href="css/style2.css">
 </head>
 
@@ -188,8 +188,8 @@ $result = $conn->query($query);
     </div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/flatpickr/flatpickr.js"></script>
     <script>
         // Configuration de Flatpickr pour la date
         flatpickr("#date_naissance", {
@@ -238,3 +238,5 @@ $result = $conn->query($query);
 </body>
 
 </html>
+
+<?php include 'footer.php'; ?>

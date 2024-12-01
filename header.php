@@ -8,16 +8,16 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion Vaccination</title>
     
-    <!-- CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="assets/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/fontawesome-free-6.7.1-web/css/all.min.css" rel="stylesheet">
     
     <style>
         :root {
-            --primary-color: #0d6efd;
-            --success-color: #198754;
-            --warning-color: #ffc107;
-            --info-color: #0dcaf0;
+            --primary-color: #2563eb;
+            --primary-dark: #1e40af;
+            --primary-light: #3b82f6;
+            --text-light: #f8fafc;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body {
@@ -26,90 +26,127 @@ $current_page = basename($_SERVER['PHP_SELF']);
         }
 
         .navbar {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 1rem 0;
-            background-color: var(--primary-color) !important;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)) !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 0.75rem 0;
         }
 
         .navbar-brand {
-            font-weight: 600;
-            font-size: 1.4rem;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-light) !important;
+            letter-spacing: 0.5px;
             padding: 0.5rem 1rem;
+            transition: var(--transition);
+        }
+
+        .navbar-brand:hover {
+            transform: translateY(-1px);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand i {
+            color: var(--primary-light);
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
         .nav-link {
             position: relative;
-            padding: 0.5rem 1rem;
-            margin: 0 0.2rem;
-            color: rgba(255, 255, 255, 0.9) !important;
+            padding: 0.75rem 1.25rem;
+            margin: 0 0.3rem;
+            color: var(--text-light) !important;
             font-weight: 500;
+            transition: var(--transition);
+            border-radius: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-1px);
         }
 
         .nav-link::after {
             content: '';
             position: absolute;
-            bottom: 0;
+            bottom: 0.5rem;
             left: 50%;
             width: 0;
             height: 2px;
-            background-color: white;
-            transition: all 0.3s ease;
+            background-color: var(--text-light);
+            transition: var(--transition);
             transform: translateX(-50%);
+            border-radius: 2px;
         }
 
-        .nav-link:hover::after {
-            width: 80%;
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 60%;
         }
 
         .nav-link.active {
-            color: white !important;
+            color: var(--text-light) !important;
             font-weight: 600;
-        }
-
-        .nav-link.active::after {
-            width: 80%;
+            background-color: rgba(255, 255, 255, 0.15);
+            opacity: 1;
         }
 
         .nav-link i {
             margin-right: 8px;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover i {
+            transform: scale(1.1);
         }
 
         .navbar-toggler {
-            border-color: rgba(255, 255, 255, 0.5);
+            border: none;
             padding: 0.5rem 0.75rem;
+            transition: var(--transition);
+        }
+
+        .navbar-toggler:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .navbar-toggler:focus {
-            box-shadow: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
         }
 
         @media (max-width: 768px) {
+            .navbar {
+                padding: 0.5rem 0;
+            }
+
             .navbar-brand {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
             }
 
             .nav-link {
                 padding: 0.75rem 1rem;
-            }
-
-            .nav-link::after {
-                display: none;
+                margin: 0.2rem 0.5rem;
+                border-radius: 0.375rem;
             }
 
             .navbar-collapse {
-                margin-top: 1rem;
+                background-color: var(--primary-dark);
+                margin-top: 0.5rem;
+                padding: 0.5rem;
+                border-radius: 0.5rem;
             }
 
             .nav-item {
-                margin: 0.2rem 0;
+                margin: 0.3rem 0;
             }
         }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
+        <div class="container">
             <a class="navbar-brand" href="dashboard.php">
                 <i class="fas fa-hospital-user me-2"></i>Gestion Vaccination
             </a>
@@ -119,7 +156,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </button>
             
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link <?php echo $current_page == 'dashboard.php' ? 'active' : ''; ?>" href="dashboard.php">
                             <i class="fas fa-chart-line"></i>
@@ -134,7 +171,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?php echo $current_page == 'ajouter_vaccination.php' ? 'active' : ''; ?>" href="ajouter_vaccination.php">
-                            <i class="fas fa-syringe me-1"></i>
+                            <i class="fas fa-syringe"></i>
                             Ajouter Vaccination
                         </a>
                     </li>
@@ -149,7 +186,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </div>
     </nav>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

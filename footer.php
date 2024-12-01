@@ -1,5 +1,10 @@
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Vous pouvez ajouter d'autres scripts JS ici si nécessaire -->
+<?php
+// Optional: Add any footer-specific logic or tracking scripts here
+?>
+    <footer class="footer mt-auto py-3 bg-light text-center">
+        <div class="container">
+            <span class="text-muted">© <?php echo date('Y'); ?> EPH SOBHA. Tous droits réservés.</span>
+        </div>
+    </footer>
 </body>
 </html>

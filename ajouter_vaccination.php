@@ -20,10 +20,10 @@ if (isset($_GET['delete_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Vaccinations</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="assets/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/flatpickr/flatpickr.min.css">
+    <link href="assets/select2/select2.min.css" rel="stylesheet">
+    <link href="assets/fontawesome-free-6.7.1-web/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style2.css">
 </head>
 
@@ -209,10 +209,10 @@ if (isset($_GET['delete_id'])) {
                 </div>
             </div>
 
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+            <script src="assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+            <script src="assets/jquery/jquery-3.6.0.min.js"></script>
+            <script src="assets/flatpickr/flatpickr.js"></script>
+            <script src="assets/select2/select2.min.js"></script>
             <script>
                 // Initialisation de Flatpickr pour les champs de date
                 flatpickr("#date_vaccination", {
@@ -304,3 +304,5 @@ if (isset($_GET['delete_id'])) {
 </body>
 
 </html>
+
+<?php include 'footer.php'; ?>

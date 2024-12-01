@@ -1,4 +1,7 @@
 <?php include 'db.php';
+require_once 'auth_check.php';
+$auth = AuthenticationManager::getInstance();
+$auth->enforceAuthentication();
 
 // Récupérer l'année en cours
 $currentYear = date("Y");
@@ -53,47 +56,66 @@ $result_employee_history = $conn->query($sql_employee_history);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Tableau de bord - Vaccination du personnel</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="assets/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/fontawesome-free-6.7.1-web/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style1.css">
 </head>
 
 <body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#">
-                <i class="fas fa-hospital-user me-2"></i>
-                Gestion Vaccination - EPH SOBHA
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="dashboard.php">
-                            <i class="fas fa-chart-line me-1"></i>Tableau de bord
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="ajouter_employe.php">
-                            <i class="fas fa-user-plus me-1"></i>Ajouter Employé
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="ajouter_vaccination.php">
-                            <i class="fas fa-syringe me-1"></i>Nouvelle Vaccination
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="ajouter_vaccin.php">
-                            <i class="fas fa-vial me-1"></i>Types vaccins
-                        </a>
-                    </li>
-                </ul>
-            </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <i class="fas fa-hospital-user me-2"></i>
+            Gestion Vaccination - EPH SOBHA
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="dashboard.php">
+                        <i class="fas fa-chart-line me-1"></i>Tableau de bord
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="ajouter_employe.php">
+                        <i class="fas fa-user-plus me-1"></i>Ajouter Employé
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="ajouter_vaccination.php">
+                        <i class="fas fa-syringe me-1"></i>Nouvelle Vaccination
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="ajouter_vaccin.php">
+                        <i class="fas fa-vial me-1"></i>Types vaccins
+                    </a>
+                </li>
+                <!-- Nouveau menu compte -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle me-1"></i>Mon compte
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li>
+                            <a class="dropdown-item" href="modifier_mot_de_passe.php">
+                                <i class="fas fa-key me-2"></i>Modifier mot de passe
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item text-danger" href="logout.php">
+                                <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <div class="container mt-4">
 
@@ -167,14 +189,14 @@ $result_employee_history = $conn->query($sql_employee_history);
                             <div class="stats-icon-wrapper me-3">
                                 <i class="fas fa-syringe fa-2x text-primary"></i>
                             </div>
-                            <h5 class="card-title mb-0 fw-bold">Employés vaccinés</h5>
+                            <h5 class="card-title mb-0 fw-bold">Employés vaccinés Année <script>document.write(new Date().getFullYear());</script> </h5>
                         </div>
 
                         <?php
                         // Requête pour les statistiques globales
                         $sql = "SELECT 
                     COUNT(*) AS total,
-                    SUM(CASE WHEN id IN (SELECT DISTINCT employee_id FROM vaccinations) THEN 1 ELSE 0 END) AS vaccinated
+                    SUM(CASE WHEN id IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_vaccination) = YEAR(CURDATE())) THEN 1 ELSE 0 END) AS vaccinated 
                     FROM employees";
                         $result = $conn->query($sql);
                         $row = $result->fetch_assoc();
@@ -248,7 +270,7 @@ $result_employee_history = $conn->query($sql_employee_history);
     COUNT(*) AS non_vaccines,
     (SELECT COUNT(*) FROM employees) as total_employees
 FROM employees 
-WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations)";
+WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_vaccination) = YEAR(CURDATE()))";
 
                     $result = $conn->query($sql);
                     $row = $result->fetch_assoc();
@@ -268,7 +290,7 @@ WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations)";
                                 <i class="fas fa-user-shield"></i>
                             </div>
                             <div class="status-badge">
-                                <h5 class="card-title mb-0 fw-bold">Employés Non Vaccinés</h5>
+                                <h5 class="card-title mb-0 fw-bold">Employés Non Vaccinés Année <script>document.write(new Date().getFullYear());</script></h5>
                             </div>
                         </div>
 
@@ -866,8 +888,8 @@ WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations)";
 
     </div>
     <!-- Bootstrap 5 JS Bundle avec Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/jquery/jquery-3.6.0.min.js"></script>
     <script>
         // Fonction de recherche pour l'historique des vaccinations
         document.getElementById('searchInput').addEventListener('keyup', function () {
@@ -900,3 +922,5 @@ WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations)";
 </body>
 
 </html>
+
+<?php include 'footer.php'; ?>

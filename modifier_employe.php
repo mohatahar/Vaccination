@@ -55,9 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifier Employé</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="assets/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/flatpickr/flatpickr.min.css">
+    <link href="css/css2.css" rel="stylesheet">
     <style>
         body {
             background-color: #f5f7fb;
@@ -216,8 +216,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/flatpickr/flatpickr.js"></script>
     <script>
         flatpickr("#date_naissance", {
             dateFormat: "Y-m-d",
@@ -231,3 +231,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Approche 1: Vider et fermer la mise en mémoire tampon à la fin du script
 ob_end_flush();
 ?>
+
+<?php include 'footer.php'; ?>

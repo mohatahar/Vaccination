@@ -6,6 +6,7 @@
     --hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
+
 body {
     background-color: var(--background-color);
     color: var(--primary-color);
@@ -15,7 +16,7 @@ body {
 .page-header {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
-    padding: 2rem 0;
+	padding: 6rem 2rem 2rem;
     margin-bottom: 2rem;
     border-radius: 0 0 1rem 1rem;
 }
@@ -146,11 +147,21 @@ body {
     margin-left: 4px;
 }
 
-.navbar {
-    box-shadow: var(--card-shadow);
-    padding: 1rem 0;
-    background-color: var(--primary-color) !important;
-}
+ .navbar {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
 
 .navbar-brand {
     font-weight: 600;
