@@ -80,7 +80,27 @@ if (isset($_GET['delete_id'])) {
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <label for="lot_number" class="form-label">Numéro de lot</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i
+                                                class="fas fa-barcode"></i></span>
+                                        <select class="form-select" id="lot_number" name="lot_number" required>
+                                            <option value="">Sélectionner le numéro de lot...</option>
+                                            <?php
+                                            $result = $conn->query("SELECT type_vaccin, lot_number FROM entrees_stock ORDER BY lot_number");
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    echo '<option value="' . $row["lot_number"] . '">' . $row["lot_number"] . '</option>';
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
+
                             <div class="row">
                                 <div class="col-md-4 mb-4">
                                     <label for="date_vaccination" class="form-label">Date de vaccination</label>
@@ -279,7 +299,6 @@ if (isset($_GET['delete_id'])) {
                 $(document).ready(function () {
                     $('#employee_id, #type_vaccin').select2({
                         theme: "classic",
-                        placeholder: "Rechercher...",
                         allowClear: true,
                         width: '100%'
                     });

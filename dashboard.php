@@ -93,12 +93,30 @@ $result_employee_history = $conn->query($sql_employee_history);
                         <i class="fas fa-vial me-1"></i>Types vaccins
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="vaccin.php">
+                        <i class="fas fa-boxes"></i> Stock Vaccins
+                    </a>
+                </li>
                 <!-- Nouveau menu compte -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user-circle me-1"></i>Mon compte
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="icon-circle">
+                            <i class="fas fa-user-circle"></i>
+                        </span>
+                        <?php echo htmlspecialchars($_SESSION['username']); ?>
                     </a>
+
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                            <li>
+                                <a class="dropdown-item" href="users.php">
+                                    <i class="fas fa-key me-2"></i>
+                                    Gérer utilisateurs
+                                </a>
+                            </li>
+                        <?php endif; ?>
                         <li>
                             <a class="dropdown-item" href="modifier_mot_de_passe.php">
                                 <i class="fas fa-key me-2"></i>Modifier mot de passe
@@ -189,7 +207,7 @@ $result_employee_history = $conn->query($sql_employee_history);
                             <div class="stats-icon-wrapper me-3">
                                 <i class="fas fa-syringe fa-2x text-primary"></i>
                             </div>
-                            <h5 class="card-title mb-0 fw-bold">Employés vaccinés Année <script>document.write(new Date().getFullYear());</script> </h5>
+                            <h5 class="card-title mb-0 fw-bold">Employés Vaccinés Année <script>document.write(new Date().getFullYear());</script> </h5>
                         </div>
 
                         <?php
@@ -711,7 +729,7 @@ WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_v
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="statisticsModalLabel">Statistiques détaillées</h5>
+                        <h5 class="modal-title" id="statisticsModalLabel">Statistiques détaillées Année <script>document.write(new Date().getFullYear());</script></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -729,7 +747,7 @@ WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_v
                                         <?php
                                         $sql = "SELECT e.service, 
                                                    COUNT(*) AS total,
-                                                   SUM(CASE WHEN e.id IN (SELECT DISTINCT employee_id FROM vaccinations) THEN 1 ELSE 0 END) AS vaccinated
+                                                   SUM(CASE WHEN e.id IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_vaccination) = YEAR(CURDATE())) THEN 1 ELSE 0 END) AS vaccinated 
                                             FROM employees e
                                             GROUP BY e.service";
                                         $result = $conn->query($sql);
@@ -757,6 +775,7 @@ WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_v
                                         <?php
                                         $sql = "SELECT type_vaccin, COUNT(*) AS count
                                             FROM vaccinations
+                                            WHERE YEAR(date_vaccination) = YEAR(CURDATE())
                                             GROUP BY type_vaccin
                                             ORDER BY count DESC";
                                         $result = $conn->query($sql);
@@ -836,7 +855,7 @@ WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_v
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="nonVaccinatedModalLabel">Liste des employés non vaccinés</h5>
+                        <h5 class="modal-title" id="nonVaccinatedModalLabel">Liste des employés non vaccinés Année <script>document.write(new Date().getFullYear());</script></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -858,7 +877,7 @@ WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_v
                                     <?php
                                     $sql = "SELECT id, nom, prenom, sexe, date_naissance, grade, service, telephone 
                                     FROM employees 
-                                    WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations)";
+                                    WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_vaccination) = YEAR(CURDATE()))";
                                     $result = $conn->query($sql);
                                     $i = 1; // Initialiser le compteur ici
                                     while ($row = $result->fetch_assoc()) {

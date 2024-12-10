@@ -1,35 +1,56 @@
-<?php 
-session_start(); 
-require_once 'db.php'; 
-$error = ''; 
+<?php
+session_start();
+require_once 'db.php'; // Connexion MySQLi
+$error = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Récupération des données du formulaire
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
     
+    // Vérification que les champs ne sont pas vides
     if (!empty($username) && !empty($password)) {
-        $stmt = $conn->prepare("SELECT id, username, password FROM users WHERE username = ?");
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        if ($result->num_rows === 1) {
-            $user = $result->fetch_assoc();
-            if ($password == $user['password']) {
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
-                
-                header('Location: dashboard.php');
-                exit;
+        // Connexion à la base de données avec MySQLi
+        if ($conn) {
+            // Préparation de la requête
+            $stmt = $conn->prepare("SELECT id, username, password, role FROM users WHERE username = ?");
+            $stmt->bind_param("s", $username); // "s" pour string (nom d'utilisateur)
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            // Vérification si un utilisateur est trouvé
+            if ($result->num_rows === 1) {
+                $user = $result->fetch_assoc();
+
+                // Vérification du mot de passe avec password_verify() pour la sécurité
+                if (password_verify($password, $user['password'])) {
+                    // Initialisation de la session
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['username'] = $user['username'];
+                    $_SESSION['user_role'] = $user['role'];
+                    $_SESSION['last_activity'] = time(); // Dernière activité pour la gestion de session
+                    session_regenerate_id(true); // Sécurisation de la session
+
+                    // Redirection vers le tableau de bord
+                    header('Location: dashboard.php');
+                    exit;
+                }
             }
+
+            // Message d'erreur si l'identifiant ou mot de passe est incorrect
+            $error = 'Identifiant ou mot de passe incorrect';
+            $stmt->close();
+        } else {
+            // Message d'erreur si la connexion à la base de données échoue
+            $error = 'Erreur de connexion à la base de données';
         }
-        $error = 'Nom d\'utilisateur ou mot de passe incorrect';
-        $stmt->close();
     } else {
+        // Message d'erreur si les champs sont vides
         $error = 'Veuillez remplir tous les champs';
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">

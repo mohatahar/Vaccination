@@ -1,4 +1,7 @@
 <?php
+require_once 'auth_check.php';
+$auth = AuthenticationManager::getInstance();
+$auth->enforceAuthentication();
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
@@ -181,11 +184,48 @@ $current_page = basename($_SERVER['PHP_SELF']);
                             Types vaccins
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo $current_page == 'vaccin.php' ? 'active' : ''; ?>" href="vaccin.php">
+                            <i class="fas fa-boxes"></i>
+                            Stock Vaccins
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="icon-circle">
+                            <i class="fas fa-user-circle"></i>
+                        </span>
+                        <?php echo htmlspecialchars($_SESSION['username']); ?>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                            <li>
+                                <a class="dropdown-item" href="users.php">
+                                    <i class="fas fa-key me-2"></i>
+                                    Gérer utilisateurs
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <li>
+                            <a class="dropdown-item" href="modifier_mot_de_passe.php">
+                                <i class="fas fa-key me-2"></i>Modifier mot de passe
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item text-danger" href="logout.php">
+                                <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 </ul>
             </div>
         </div>
     </nav>
 
     <script src="assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
 </body>
 </html>

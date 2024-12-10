@@ -5,6 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupération des valeurs du formulaire
     $employee_id = $_POST['employee_id'];
     $type_vaccin_id = $_POST['type_vaccin'];
+    $lot_number = $_POST['lot_number'];
     $date_vaccination = $_POST['date_vaccination'];
     $dose = $_POST['dose'];
     $prochain_rappel = $_POST['prochain_rappel'];
@@ -27,10 +28,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Insertion dans la table vaccinations
-        $sql_insert = "INSERT INTO vaccinations (employee_id, type_vaccin, date_vaccination, dose, prochain_rappel, rappel_effectue)
-                       VALUES (?, ?, ?, ?, ?, ?)";
+        $sql_insert = "INSERT INTO vaccinations (employee_id, type_vaccin, lot_number, date_vaccination, dose, prochain_rappel, rappel_effectue)
+                       VALUES (?, ?, ?, ?, ?, ?,?)";
         $stmt_insert = $conn->prepare($sql_insert);
-        $stmt_insert->bind_param("isssss", $employee_id, $type_vaccin_name, $date_vaccination, $dose, $prochain_rappel, $rappel_effectue);
+        $stmt_insert->bind_param("issssss", $employee_id, $type_vaccin_name, $lot_number, $date_vaccination, $dose, $prochain_rappel, $rappel_effectue);
 
         // Exécution de la requête et gestion des erreurs
         if ($stmt_insert->execute()) {

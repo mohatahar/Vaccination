@@ -48,7 +48,7 @@ $result = $conn->query($query);
                         </h3>
                         <form action="inserer_type_vaccin.php" method="POST" id="vaccineTypeForm">
                             <div class="mb-4">
-                                <label for="name" class="form-label">Nom du vaccin</label>
+                                <label for="name" class="form-label">Type du vaccin</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i
                                             class="fas fa-prescription-bottle-medical"></i></span>
@@ -79,7 +79,7 @@ $result = $conn->query($query);
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h3 class="card-title mb-4">
-                                <i class="fas fa-list me-2"></i>Liste des vaccins
+                                <i class="fas fa-list me-2"></i>Liste de types vaccins
                             </h3>
                             <div class="input-group" style="width: 300px;">
                                 <input type="text" class="form-control" id="searchInput"
@@ -92,7 +92,7 @@ $result = $conn->query($query);
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Nom</th>
+                                        <th>Type</th>
                                         <th>Doses Recommandées</th>
                                         <th class="text-center">Actions</th>
                                     </tr>

@@ -1,6 +1,7 @@
 <?php
 require_once 'auth_check.php';
 require_once 'db.php';
+include 'header.php';
 
 $auth = AuthenticationManager::getInstance();
 $auth->enforceAuthentication();
@@ -23,37 +24,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = "Le nouveau mot de passe et sa confirmation ne correspondent pas.";
         $messageType = "danger";
     }
-    // Vérification que le nouveau mot de passe est assez fort
-    elseif (strlen($new_password) < 8) {
-        $message = "Le nouveau mot de passe doit contenir au moins 8 caractères.";
-        $messageType = "danger";
-    }
     else {
         try {
             // Récupérer le mot de passe actuel de l'utilisateur
-            $stmt = $pdo->prepare("SELECT password FROM users WHERE id = ? LIMIT 1");
-            $stmt->execute([$_SESSION['user_id']]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt = $conn->prepare("SELECT password FROM users WHERE id = ? LIMIT 1");
+            $stmt->bind_param("i", $_SESSION['user_id']);  // "i" pour integer (id)
+            $stmt->execute();
+            $result = $stmt->get_result();
             
-            // Vérifier si le mot de passe actuel est correct
-            if ($user && password_verify($current_password, $user['password'])) {
-                // Hasher le nouveau mot de passe
-                $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+            // Vérifier si l'utilisateur existe
+            if ($result->num_rows === 1) {
+                $user = $result->fetch_assoc();
                 
-                // Mettre à jour le mot de passe
-                $update_stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
-                if ($update_stmt->execute([$hashed_password, $_SESSION['user_id']])) {
-                    $message = "Votre mot de passe a été modifié avec succès.";
-                    $messageType = "success";
+                // Vérifier si le mot de passe actuel est correct
+                if (password_verify($current_password, $user['password'])) {
+                    // Hasher le nouveau mot de passe
+                    $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+                    
+                    // Mettre à jour le mot de passe
+                    $update_stmt = $conn->prepare("UPDATE users SET password = ? WHERE id = ?");
+                    $update_stmt->bind_param("si", $hashed_password, $_SESSION['user_id']); // "s" pour string et "i" pour integer
+                    if ($update_stmt->execute()) {
+                        $message = "Votre mot de passe a été modifié avec succès.";
+                        $messageType = "success";
+                    } else {
+                        $message = "Une erreur est survenue lors de la mise à jour du mot de passe.";
+                        $messageType = "danger";
+                    }
                 } else {
-                    $message = "Une erreur est survenue lors de la mise à jour du mot de passe.";
+                    $message = "Le mot de passe actuel est incorrect.";
                     $messageType = "danger";
                 }
             } else {
-                $message = "Le mot de passe actuel est incorrect.";
+                $message = "Utilisateur introuvable.";
                 $messageType = "danger";
             }
-        } catch (PDOException $e) {
+        } catch (Exception $e) {
             $message = "Une erreur est survenue lors de la modification du mot de passe.";
             $messageType = "danger";
         }
@@ -67,9 +73,20 @@ $page_header_icon = "fas fa-key";
 $page_header_title = "Modification du mot de passe";
 $page_header_description = "Modifiez votre mot de passe en toute sécurité";
 
-include 'header.php';
 ?>
 
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modification de mot de passe</title>
+    <link href="assets/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/fontawesome-free-6.7.1-web/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
 <div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -101,11 +118,9 @@ include 'header.php';
                                    class="form-control" 
                                    id="new_password" 
                                    name="new_password" 
-                                   required 
-                                   minlength="8">
-                            <div class="form-text">Le mot de passe doit contenir au moins 8 caractères</div>
+                                   required>
                             <div class="invalid-feedback">
-                                Le mot de passe doit contenir au moins 8 caractères
+                                Veuillez saisir un nouveau mot de passe
                             </div>
                         </div>
 
@@ -125,7 +140,7 @@ include 'header.php';
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save me-2"></i>Modifier le mot de passe
                             </button>
-                            <a href="index.php" class="btn btn-outline-secondary">
+                            <a href="dashboard.php" class="btn btn-outline-secondary">
                                 <i class="fas fa-arrow-left me-2"></i>Retour
                             </a>
                         </div>
@@ -136,6 +151,8 @@ include 'header.php';
     </div>
 </div>
 
+<script src="assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/bootstrap/bootstrap.min.js"></script>
 <!-- Script pour la validation côté client -->
 <script>
 (function () {
@@ -170,5 +187,9 @@ include 'header.php';
         })
 })()
 </script>
+
+</body>
+
+</html>
 
 <?php include 'footer.php'; ?>
