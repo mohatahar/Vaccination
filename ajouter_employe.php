@@ -28,6 +28,37 @@ $result = $conn->query($query);
     <link href="assets/fontawesome-free-6.7.1-web/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/flatpickr/flatpickr.min.css">
     <link rel="stylesheet" href="css/style2.css">
+    <style>
+        /* Conteneur pour les boutons */
+        .buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: flex-end;
+            /* Aligner les boutons à droite */
+        }
+
+        /* Boutons stylisés */
+        .button {
+            background-color: #333;
+            /* Fond noir */
+            color: #fff;
+            /* Texte blanc */
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .button:hover {
+            background-color: #555;
+            /* Survol */
+        }
+    </style>
 </head>
 
 <body>
@@ -44,6 +75,11 @@ $result = $conn->query($query);
                 <!-- Formulaire d'ajout -->
                 <div class="card mb-5 fade-in">
                     <div class="card-body">
+                        <div class="buttons">
+                            <a href="importer_employe.php" class="button">
+                                <i class="fas fa-file-import"></i> Importer une liste d'employés
+                            </a>
+                        </div>
                         <h3 class="card-title mb-4">
                             <i class="fas fa-user-plus me-2"></i>Ajouter un nouvel employé
                         </h3>
@@ -73,8 +109,8 @@ $result = $conn->query($query);
                                         <span class="input-group-text"><i class="fas fa-venus-mars"></i></span>
                                         <select class="form-select" id="sexe" name="sexe" required>
                                             <option value="">Sélectionnez...</option>
-                                            <option value="M">Masculin</option>
-                                            <option value="F">Féminin</option>
+                                            <option value="Homme">Homme</option>
+                                            <option value="Femme">Femme</option>
                                         </select>
                                     </div>
                                 </div>

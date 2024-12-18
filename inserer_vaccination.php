@@ -41,6 +41,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $stmt_insert->close();
+        if ($row['type_flacon'] == 'unidose') {
+// Logique existante pour les flacons unidose
+$update_sql = "UPDATE entrees_stock 
+SET quantite_disponible = quantite_disponible - 1 
+WHERE lot_number = ?";
+        }
     } else {
         echo "Erreur : Type de vaccin introuvable";
     }

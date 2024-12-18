@@ -4,11 +4,6 @@ require_once 'auth_check.php';
 $auth = AuthenticationManager::getInstance();
 $auth->enforceAuthentication();
 
-$page_title = 'Gestion des Utilisateurs';
-$show_page_header = true;
-$page_header_icon = 'fas fa-users';
-$page_header_title = 'Gestion des Comptes Utilisateurs';
-$page_header_description = 'Ajoutez, modifiez et supprimez des comptes utilisateurs';
 require_once 'header.php';
 
 // Pagination and Search
@@ -83,7 +78,6 @@ function sortIcon($column, $currentSort, $currentOrder)
     <link href="assets/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/fontawesome-free-6.7.1-web/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/css2.css">
-    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="container">
@@ -96,7 +90,6 @@ function sortIcon($column, $currentSort, $currentOrder)
                     <div class="col-md-6 d-flex justify-content-end">
                         <div class="search-box">
                             <input type="text" class="form-control" id="searchInput" placeholder="Rechercher...">
-                            <i class="fas fa-search"></i>
                         </div>
                     </div>
                 </div>

@@ -33,7 +33,7 @@ $result = $conn->query($query);
 <body>
     <div class="page-header text-center">
         <div class="container">
-            <h1><i class="fas fa-vial"></i>Gestion des types de vaccins</h1>
+            <h1><i class="fas fa-vial"></i> Gestion des types de vaccins</h1>
             <p class="lead">Ajoutez et gérez les différents types de vaccins</p>
         </div>
     </div>

@@ -1,5 +1,8 @@
-<?php include 'db.php';
+<?php
+include 'db.php';
 require_once 'auth_check.php';
+include 'header.php';
+
 $auth = AuthenticationManager::getInstance();
 $auth->enforceAuthentication();
 
@@ -61,89 +64,12 @@ $result_employee_history = $conn->query($sql_employee_history);
     <link rel="stylesheet" href="css/style1.css">
 </head>
 
-<body class="bg-light">
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="#">
-            <i class="fas fa-hospital-user me-2"></i>
-            Gestion Vaccination - EPH SOBHA
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="dashboard.php">
-                        <i class="fas fa-chart-line me-1"></i>Tableau de bord
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="ajouter_employe.php">
-                        <i class="fas fa-user-plus me-1"></i>Ajouter Employé
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="ajouter_vaccination.php">
-                        <i class="fas fa-syringe me-1"></i>Nouvelle Vaccination
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="ajouter_vaccin.php">
-                        <i class="fas fa-vial me-1"></i>Types vaccins
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="vaccin.php">
-                        <i class="fas fa-boxes"></i> Stock Vaccins
-                    </a>
-                </li>
-                <!-- Nouveau menu compte -->
-                <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="icon-circle">
-                            <i class="fas fa-user-circle"></i>
-                        </span>
-                        <?php echo htmlspecialchars($_SESSION['username']); ?>
-                    </a>
-
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
-                            <li>
-                                <a class="dropdown-item" href="users.php">
-                                    <i class="fas fa-key me-2"></i>
-                                    Gérer utilisateurs
-                                </a>
-                            </li>
-                        <?php endif; ?>
-                        <li>
-                            <a class="dropdown-item" href="modifier_mot_de_passe.php">
-                                <i class="fas fa-key me-2"></i>Modifier mot de passe
-                            </a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <a class="dropdown-item text-danger" href="logout.php">
-                                <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+<body>
+    <div class="page-header text-center">      
+            <h1><i class="fas fa-chart-line me-2"></i>Tableau de bord de vaccinations - EPH SOBHA</h1>   
     </div>
-</nav>
 
-    <div class="container mt-4">
-
-        <div class="page-header text-center">
-            <div class="container">
-                <h1><i class="fas fa-chart-line me-2"></i>Tableau de bord de vaccinations - EPH SOBHA</h1>
-                <p class="lead"> </p>
-            </div>
-        </div>
-
+    <div class="container">
         <div class="row">
 
             <!-- Card Total Employés -->
@@ -165,8 +91,8 @@ $result_employee_history = $conn->query($sql_employee_history);
                         // Requête pour les statistiques globales
                         $sql = "SELECT 
                             COUNT(*) AS total,
-                            SUM(CASE WHEN sexe = 'M' THEN 1 ELSE 0 END) AS hommes,
-                            SUM(CASE WHEN sexe = 'F' THEN 1 ELSE 0 END) AS femmes
+                            SUM(CASE WHEN sexe = 'Homme' THEN 1 ELSE 0 END) AS hommes,
+                            SUM(CASE WHEN sexe = 'Femme' THEN 1 ELSE 0 END) AS femmes
                             FROM employees";
                         $result = $conn->query($sql);
                         $row = $result->fetch_assoc();
@@ -207,7 +133,9 @@ $result_employee_history = $conn->query($sql_employee_history);
                             <div class="stats-icon-wrapper me-3">
                                 <i class="fas fa-syringe fa-2x text-primary"></i>
                             </div>
-                            <h5 class="card-title mb-0 fw-bold">Employés Vaccinés Année <script>document.write(new Date().getFullYear());</script> </h5>
+                            <h5 class="card-title mb-0 fw-bold">Employés Vaccinés Année
+                                <script>document.write(new Date().getFullYear());</script>
+                            </h5>
                         </div>
 
                         <?php
@@ -285,10 +213,10 @@ $result_employee_history = $conn->query($sql_employee_history);
                     <?php
                     // SQL query to get unvaccinated employees count and total employees
                     $sql = "SELECT 
-    COUNT(*) AS non_vaccines,
-    (SELECT COUNT(*) FROM employees) as total_employees
-FROM employees 
-WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_vaccination) = YEAR(CURDATE()))";
+                      COUNT(*) AS non_vaccines,
+                     (SELECT COUNT(*) FROM employees) as total_employees
+                     FROM employees 
+                     WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_vaccination) = YEAR(CURDATE()))";
 
                     $result = $conn->query($sql);
                     $row = $result->fetch_assoc();
@@ -308,7 +236,9 @@ WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_v
                                 <i class="fas fa-user-shield"></i>
                             </div>
                             <div class="status-badge">
-                                <h5 class="card-title mb-0 fw-bold">Employés Non Vaccinés Année <script>document.write(new Date().getFullYear());</script></h5>
+                                <h5 class="card-title mb-0 fw-bold">Employés Non Vaccinés Année
+                                    <script>document.write(new Date().getFullYear());</script>
+                                </h5>
                             </div>
                         </div>
 
@@ -532,35 +462,37 @@ WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_v
 
         <!-- Pourcentage de vaccination -->
         <div class="row mt-4">
-            <!-- Statistiques par type de vaccin -->
-            <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="card-title mb-0">
-                        <i class="fas fa-chart-pie me-2"></i>Pourcentage de vaccination par type pour l'année <span
-                            id="currentYear"></span>
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <?php while ($row = $result_vaccine_stats->fetch_assoc()): ?>
-                            <div class="col-md-4 mb-3">
-                                <div class="vaccine-stat-card border rounded p-3">
-                                    <h6 class="text-primary"><?php echo htmlspecialchars($row['type_vaccin']); ?></h6>
-                                    <div class="progress mb-2" style="height: 20px;">
-                                        <div class="progress-bar bg-primary" role="progressbar"
-                                            style="width: <?php echo $row['percentage']; ?>%"
-                                            aria-valuenow="<?php echo $row['percentage']; ?>" aria-valuemin="0"
-                                            aria-valuemax="100">
-                                            <?php echo $row['percentage']; ?>%
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-chart-pie me-2"></i>Pourcentage de vaccination par type pour l'année
+                                <span id="currentYear"></span>
+                            </h5>
+                        </div>
+
+                        <div class="row">
+                            <?php while ($row = $result_vaccine_stats->fetch_assoc()): ?>
+                                <div class="col-md-4 mb-3">
+                                    <div class="vaccine-stat-card border rounded p-3">
+                                        <h6 class="text-primary"><?php echo htmlspecialchars($row['type_vaccin']); ?></h6>
+                                        <div class="progress mb-2" style="height: 20px;">
+                                            <div class="progress-bar bg-primary" role="progressbar"
+                                                style="width: <?php echo $row['percentage']; ?>%"
+                                                aria-valuenow="<?php echo $row['percentage']; ?>" aria-valuemin="0"
+                                                aria-valuemax="100">
+                                                <?php echo $row['percentage']; ?>%
+                                            </div>
                                         </div>
+                                        <small class="text-muted">
+                                            <?php echo $row['vaccinated_count']; ?> employés sur
+                                            <?php echo $row['total_employees']; ?>
+                                        </small>
                                     </div>
-                                    <small class="text-muted">
-                                        <?php echo $row['vaccinated_count']; ?> employés sur
-                                        <?php echo $row['total_employees']; ?>
-                                    </small>
                                 </div>
-                            </div>
-                        <?php endwhile; ?>
+                            <?php endwhile; ?>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -571,7 +503,7 @@ WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_v
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h5 class="card-title mb-4">
+                                <h5 class="card-title mb-0">
                                     <i class="fas fa-history me-2"></i>Historique des vaccinations
                                 </h5>
                                 <div class="input-group" style="width: 300px;">
@@ -581,52 +513,49 @@ WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_v
                                 </div>
                             </div>
 
-
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-hover">
-                                        <thead>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Employé</th>
+                                            <th>Grade</th>
+                                            <th>Service</th>
+                                            <th>Statut</th>
+                                            <th>Historique des vaccinations</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php while ($row = $result_employee_history->fetch_assoc()): ?>
                                             <tr>
-                                                <th>Employé</th>
-                                                <th>Grade</th>
-                                                <th>Service</th>
-                                                <th>Statut</th>
-                                                <th>Historique des vaccinations</th>
+                                                <td><?php echo htmlspecialchars($row['nom'] . ' ' . $row['prenom']); ?>
+                                                </td>
+                                                <td><?php echo htmlspecialchars($row['grade']); ?></td>
+                                                <td><?php echo htmlspecialchars($row['service']); ?></td>
+                                                <td>
+                                                    <?php if ($row['vaccination_history']): ?>
+                                                        <span class="badge bg-success">Vacciné</span>
+                                                    <?php else: ?>
+                                                        <span class="badge bg-danger">Non vacciné</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td>
+                                                    <?php if ($row['vaccination_history']): ?>
+                                                        <ul class="list-unstyled mb-0">
+                                                            <?php foreach (explode('|', $row['vaccination_history']) as $vaccination): ?>
+                                                                <li>
+                                                                    <i class="fas fa-syringe me-1 text-primary"></i>
+                                                                    <?php echo htmlspecialchars($vaccination); ?>
+                                                                </li>
+                                                            <?php endforeach; ?>
+                                                        </ul>
+                                                    <?php else: ?>
+                                                        <em class="text-muted">Aucune vaccination enregistrée</em>
+                                                    <?php endif; ?>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php while ($row = $result_employee_history->fetch_assoc()): ?>
-                                                <tr>
-                                                    <td><?php echo htmlspecialchars($row['nom'] . ' ' . $row['prenom']); ?>
-                                                    </td>
-                                                    <td><?php echo htmlspecialchars($row['grade']); ?></td>
-                                                    <td><?php echo htmlspecialchars($row['service']); ?></td>
-                                                    <td>
-                                                        <?php if ($row['vaccination_history']): ?>
-                                                            <span class="badge bg-success">Vacciné</span>
-                                                        <?php else: ?>
-                                                            <span class="badge bg-danger">Non vacciné</span>
-                                                        <?php endif; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php if ($row['vaccination_history']): ?>
-                                                            <ul class="list-unstyled mb-0">
-                                                                <?php foreach (explode('|', $row['vaccination_history']) as $vaccination): ?>
-                                                                    <li>
-                                                                        <i class="fas fa-syringe me-1 text-primary"></i>
-                                                                        <?php echo htmlspecialchars($vaccination); ?>
-                                                                    </li>
-                                                                <?php endforeach; ?>
-                                                            </ul>
-                                                        <?php else: ?>
-                                                            <em class="text-muted">Aucune vaccination enregistrée</em>
-                                                        <?php endif; ?>
-                                                    </td>
-                                                </tr>
-                                            <?php endwhile; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        <?php endwhile; ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -641,7 +570,7 @@ WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_v
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h5 class="card-title mb-4">
+                            <h5 class="card-title mb-0">
                                 <i class="fas fa-clock me-2"></i>Prochains rappels
                             </h5>
 
@@ -650,7 +579,6 @@ WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_v
                                     placeholder="Rechercher...">
                                 <span class="input-group-text"><i class="fas fa-search"></i></span>
                             </div>
-
                         </div>
 
                         <div class="table-responsive">
@@ -729,7 +657,9 @@ WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_v
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="statisticsModalLabel">Statistiques détaillées Année <script>document.write(new Date().getFullYear());</script></h5>
+                        <h5 class="modal-title" id="statisticsModalLabel">Statistiques détaillées Année
+                            <script>document.write(new Date().getFullYear());</script>
+                        </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -855,7 +785,9 @@ WHERE id NOT IN (SELECT DISTINCT employee_id FROM vaccinations WHERE YEAR(date_v
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="nonVaccinatedModalLabel">Liste des employés non vaccinés Année <script>document.write(new Date().getFullYear());</script></h5>
+                        <h5 class="modal-title" id="nonVaccinatedModalLabel">Liste des employés non vaccinés Année
+                            <script>document.write(new Date().getFullYear());</script>
+                        </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">

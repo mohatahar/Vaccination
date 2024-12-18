@@ -4,6 +4,17 @@
     --background-color: #f8f9fa;
     --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+
+    /* Nouvelle section de variables */
+    --primary-light: rgba(78, 115, 223, 0.1);
+    --danger-color: #dc3545;
+    --danger-soft: rgba(220, 53, 69, 0.1);
+    --warning-color: #ffc107;
+    --warning-soft: rgba(255, 193, 7, 0.1);
+    --critical-color: #9b2c2c;
+    --critical-soft: rgba(155, 44, 44, 0.1);
+    --border-radius: 16px;
+    --transition-speed: 0.3s;
 }
 
 
@@ -16,7 +27,7 @@ body {
 .page-header {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
-	padding: 6rem 2rem 2rem;
+    padding: 2rem 0;
     margin-bottom: 2rem;
     border-radius: 0 0 1rem 1rem;
 }
@@ -31,12 +42,6 @@ body {
 .page-header h1 i {
     margin-right: 10px;
     color: var(--secondary-color);
-}
-
-.page-header p.lead {
-    font-size: 1.25rem;
-    font-weight: 300;
-    color: #ecf0f1;
 }
 
 .card {
@@ -55,6 +60,8 @@ body {
 .card-dashboard {
     border-radius: 15px;
     padding: 1.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease-in-out;
 }
 
 .form-control,
@@ -147,60 +154,6 @@ body {
     margin-left: 4px;
 }
 
- .navbar {
-            background: rgba(30, 41, 59, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-        }
-
-
-.navbar-brand {
-    font-weight: 600;
-    font-size: 1.4rem;
-    padding: 0.5rem 1rem;
-}
-
-.nav-link {
-    color: rgba(255, 255, 255, 0.9) !important;
-    font-weight: 500;
-    position: relative;
-    padding: 0.5rem 1rem;
-}
-
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background-color: white;
-    transition: all 0.3s ease;
-    transform: translateX(-50%);
-}
-
-.nav-link:hover::after {
-    width: 80%;
-}
-
-.navbar-toggler {
-    border-color: rgba(255, 255, 255, 0.5);
-    padding: 0.5rem 0.75rem;
-}
-
-.navbar-toggler:focus {
-    box-shadow: none;
-}
-
 @media (max-width: 768px) {
     .page-header h1 {
         font-size: 2rem;
@@ -227,12 +180,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.card-dashboard {
-    border: none;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease-in-out;
 }
 
 .card-dashboard:hover {
@@ -480,20 +427,6 @@ circle {
         gap: 1rem;
         text-align: center;
     }
-}
-
- /* Variables CSS pour une personnalisation facile */
- :root {
-    --primary-color: #4e73df;
-    --primary-light: rgba(78, 115, 223, 0.1);
-    --danger-color: #dc3545;
-    --danger-soft: rgba(220, 53, 69, 0.1);
-    --warning-color: #ffc107;
-    --warning-soft: rgba(255, 193, 7, 0.1);
-    --critical-color: #9b2c2c;
-    --critical-soft: rgba(155, 44, 44, 0.1);
-    --border-radius: 16px;
-    --transition-speed: 0.3s;
 }
 
 /* Styles de base de la carte */

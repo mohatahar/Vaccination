@@ -29,7 +29,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         }
 
         .navbar {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)) !important;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-dark)) !important;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             padding: 0.75rem 0;
         }
@@ -151,7 +151,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="dashboard.php">
-                <i class="fas fa-hospital-user me-2"></i>Gestion Vaccination
+                <i class="fas fa-hospital-user me-2"></i>EPH SOBHA
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -168,14 +168,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?php echo $current_page == 'ajouter_employe.php' ? 'active' : ''; ?>" href="ajouter_employe.php">
-                            <i class="fas fa-user-plus"></i>
-                            Ajouter Employé
+                            <i class="fas fa-users"></i>
+                            Employés
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?php echo $current_page == 'ajouter_vaccination.php' ? 'active' : ''; ?>" href="ajouter_vaccination.php">
                             <i class="fas fa-syringe"></i>
-                            Ajouter Vaccination
+                            Vaccinations
                         </a>
                     </li>
                     <li class="nav-item">
